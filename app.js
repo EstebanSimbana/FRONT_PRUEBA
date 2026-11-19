@@ -1,4 +1,7 @@
-const endpoint = 'http://127.0.0.1:5050/api/v1/productos';
+const endpoint = document.querySelector('meta[name="products-api"]').content
+  || (['localhost', '127.0.0.1'].includes(location.hostname)
+    ? 'http://127.0.0.1:5050/api/v1/productos'
+    : '');
 const get = (id) => document.getElementById(id);
 const filters = get('filters');
 const table = get('table');
@@ -16,12 +19,13 @@ let selectedId;
 let saving = false;
 
 async function request(path = '', options = {}) {
+  if (!endpoint) throw new Error('El catálogo aún no tiene una API pública configurada.');
   let response;
   try {
     response = await fetch(endpoint + path, options);
   } catch (error) {
     if (error.name === 'AbortError') throw error;
-    throw new Error('No se pudo conectar con la API. Verifica que el backend esté activo en el puerto 5050 y que la URL del frontend esté permitida en CORS.');
+    throw new Error('No se pudo conectar con la API. Verifica que esté activa y que permita el origen de esta página en CORS.');
   }
   if (response.status === 204) return;
   const result = await response.json().catch(() => null);
