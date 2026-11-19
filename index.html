@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catálogo | BDProductos</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="top"><div class="wrap brand"><span class="mark" aria-hidden="true">▦</span> BDProductos</div></header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="heading">
+      <div><h1 id="heading">Catálogo de productos</h1><p>Consulta y actualiza precios, existencias y fichas de producto.</p></div>
+      <button class="primary" id="create">+ Nuevo producto</button>
+    </section>
+    <section class="panel" aria-label="Listado de productos">
+      <form id="filters" class="filters">
+        <label class="search">Buscar por nombre<input name="nombre" type="search" maxlength="250" placeholder="Escribe un nombre"></label>
+        <label>Ordenar por<select name="orden">
+          <option value="id_asc">ID ascendente</option><option value="id_desc">ID descendente</option>
+          <option value="nombre_asc">Nombre A–Z</option><option value="nombre_desc">Nombre Z–A</option>
+          <option value="pvp_asc">Menor precio</option><option value="pvp_desc">Mayor precio</option>
+        </select></label>
+        <button>Buscar</button>
+      </form>
+      <p id="notice" role="status" hidden></p>
+      <div class="table-scroll">
+        <table id="table" hidden>
+          <thead><tr><th scope="col">Producto</th><th scope="col">ID</th><th scope="col">PVP</th><th scope="col">Stock</th><th scope="col">Acciones</th></tr></thead>
+          <tbody id="products"></tbody>
+        </table>
+      </div>
+      <div class="empty" id="state" role="status"></div>
+      <footer class="pagination" id="pagination" hidden>
+        <span id="summary"></span><div><button id="previous">Anterior</button> <button id="next">Siguiente</button></div>
+      </footer>
+    </section>
+  </main>
+  <dialog id="editor">
+    <form id="product-form">
+      <h2 id="editor-title"></h2>
+      <label>Nombre<input name="nombre" required minlength="2" maxlength="250" autofocus></label>
+      <label>Descripción<textarea name="descripcion" required maxlength="4000" rows="4"></textarea></label>
+      <label>URL de imagen<input name="URLimagen" type="url" required maxlength="2048" placeholder="https://ejemplo.com/producto.webp"></label>
+      <div class="field-row">
+        <label>PVP<input name="pvp" inputmode="decimal" required maxlength="11" placeholder="34.90"></label>
+        <label>Stock<input name="stock" type="number" required min="0" max="2147483647" step="1"></label>
+      </div>
+      <p class="error" role="alert" hidden></p>
+      <div class="dialog-actions"><button type="button" data-close>Cancelar</button><button class="primary" type="submit">Guardar</button></div>
+    </form>
+  </dialog>
+  <dialog id="removal">
+    <form id="delete-form">
+      <h2>Eliminar producto</h2>
+      <p id="delete-message"></p>
+      <p class="error" role="alert" hidden></p>
+      <div class="dialog-actions"><button type="button" data-close autofocus>Cancelar</button><button class="danger" type="submit">Eliminar</button></div>
+    </form>
+  </dialog>
+</body>
+</html>
